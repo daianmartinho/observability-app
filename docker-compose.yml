@@ -1,0 +1,34 @@
+version: '3.6'
+
+networks:
+    observability:
+        driver: bridge
+        attachable: true
+
+services:    
+    app1:
+        hostname: app1
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        ports:
+            - 80:80
+        networks:
+            - observability
+    
+    app2:
+        hostname: app2
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        ports:
+            - 81:80
+        networks:
+            - observability
+    
+    jaeger:
+        image: jaegertracing/all-in-one
+        ports:
+            - 16686:16686
+        networks:
+            - observability
